@@ -1,0 +1,42 @@
+---
+title: "Lab2"
+author: "AJ Zekanoski"
+date: "1/19/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(janitor)
+library(ggfortify)
+library(readxl)
+library(gghighlight)
+library(lubridate)
+library(plotly)
+library(patchwork)
+library(palmerpenguins)
+library(here)
+```
+
+#### Part 1: PCA with penguins
+
+```{r}
+penguin_pca <- penguins %>% 
+  select(body_mass_g, ends_with("_mm")) %>% 
+  drop_na() %>% 
+  scale() %>% 
+  prcomp()
+
+
+penguin_complete <- penguins %>% 
+  drop_na(body_mass_g, ends_with("_mm"))
+
+autoplot(penguin_pca,
+         data = penguin_complete,
+         colour = 'species',
+         loadings = TRUE,
+         loadings.label = TRUE) +
+  theme_minimal()
+```
+
